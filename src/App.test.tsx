@@ -276,6 +276,38 @@ it('adds a TCG card to the portfolio and values it by market price × quantity',
   expect(badge()).toBe('Mis portafolios: 2 cartas');
 });
 
+describe('Volver from collections and portfolios', () => {
+  const selectedTab = () => container.querySelector('[role="tab"][aria-selected="true"]')?.textContent;
+
+  it.each([
+    ['Colección', '#/colecciones'],
+    ['Portafolio', '#/portafolios'],
+  ])('returns from %s to the exact page (Pokémon, tab and filters)', async (_, target) => {
+    await renderAt('#/pokemon/charmander?tipo=fire&pestana=cartas');
+    await click(container.querySelector(`a[href="${target}"]`));
+    expect(window.location.hash).toBe(target);
+
+    await click(buttonWithText('Volver'));
+    expect(window.location.hash).toBe('#/pokemon/charmander?tipo=fire&pestana=cartas');
+    expect(selectedTab()).toContain('Cartas TCG');
+  });
+
+  it('goes to the Pokédex when the page was opened directly (no in-app history)', async () => {
+    await renderAt('#/portafolios');
+    await click(buttonWithText('Volver'));
+    expect(window.location.hash).toBe('#/');
+    expect(container.textContent).toContain('Selecciona un Pokémon');
+  });
+
+  it('does not stack the same page when its header button is pressed again', async () => {
+    await renderAt('#/pokemon/charmander');
+    await click(container.querySelector('a[href="#/colecciones"]'));
+    await click(container.querySelector('a[href="#/colecciones"]'));
+    await click(buttonWithText('Volver'));
+    expect(window.location.hash).toBe('#/pokemon/charmander');
+  });
+});
+
 it('shows the three sections and an empty viewer on the home route', async () => {
   await renderAt('#/');
   const text = container.textContent ?? '';

@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import BackButton from '../components/BackButton';
 import ErrorMessage from '../components/ErrorMessage';
 import Loader from '../components/Loader';
 import PriceTag from '../components/PriceTag';
@@ -88,7 +89,6 @@ function PriceTable({ title, currency, rows, updated }: { title: string; currenc
 
 export default function TcgCardPage() {
   const { lang = 'es', id = '' } = useParams();
-  const navigate = useNavigate();
   const { currency, ratesError, lastUpdate } = useCurrency();
   const { data: card, error, loading } = useAsync((signal) => getCard(lang, id, signal), [lang, id]);
 
@@ -98,11 +98,7 @@ export default function TcgCardPage() {
     window.scrollTo(0, 0);
   }, [id]);
 
-  const backButton = (
-    <button onClick={() => navigate(-1)} className="dex-btn self-start">
-      ◄ Volver
-    </button>
-  );
+  const backButton = <BackButton />;
 
   if (loading) {
     return (

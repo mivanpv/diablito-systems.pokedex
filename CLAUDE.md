@@ -56,5 +56,6 @@ npm run deploy                              # build + publish build/ to the gh-p
   - A `dex-btn` with `aria-pressed="true"` fills navy. Add `dex-chip-accent` to make it fill red instead, or use `dex-btn-accent` for an always-red primary button.
   - Fonts are Space Mono (`font-display`, for titles, labels, numbers and buttons) and Plus Jakarta Sans (`font-body`, the default). Both are bundled through `@fontsource`; don't load them from a CDN.
   - Wrap sections in `SectionPanel`; its `aside` prop holds the status text on the right of the title row.
+- `components/BackButton.tsx` ("◄ Volver") is used on the card, collections and portfolios pages. It calls `navigate(-1)`, and because the Pokémon, tab and filters live in the URL, the user lands exactly where they were. When the page was opened directly, the location key is `"default"` and there is no in-app history, so it goes to `/`. The header Colección and Portafolio links use `replace` when already on that page, so Volver never lands on the same page.
 - `src/App.test.tsx`: a smoke test that mounts the whole app with `fetch` mocked by URL. When you add a new endpoint, add its response to the mock.
 - Browser storage access is always wrapped in try/catch, because it can throw in private mode.

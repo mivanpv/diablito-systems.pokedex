@@ -1,12 +1,22 @@
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useCollections } from '../context/CollectionsContext';
 import { usePortfolios } from '../context/PortfoliosContext';
 import CurrencySelector from './CurrencySelector';
 
+// Already on the page? Replace instead of pushing, so "Volver" doesn't land on the same page.
+const useIsCurrent = (path: string) => useLocation().pathname === path;
+
 function CollectionLink() {
   const { savedCount } = useCollections();
+  const isCurrent = useIsCurrent('/colecciones');
   return (
-    <Link to="/colecciones" className="dex-btn gap-1.5 py-1" aria-label={`Mi colección: ${savedCount} Pokémon guardados`}>
+    <Link
+      to="/colecciones"
+      replace={isCurrent}
+      aria-current={isCurrent ? 'page' : undefined}
+      className="dex-btn gap-1.5 py-1"
+      aria-label={`Mi colección: ${savedCount} Pokémon guardados`}
+    >
       <span aria-hidden="true" className="text-yellow-500">★</span>
       <span className="hidden sm:inline">COLECCIÓN</span>
       <span className="min-w-[1.25rem] rounded-full bg-dex-accent px-1.5 text-center text-[10px] leading-4 text-white">
@@ -18,8 +28,15 @@ function CollectionLink() {
 
 function PortfolioLink() {
   const { cardCount } = usePortfolios();
+  const isCurrent = useIsCurrent('/portafolios');
   return (
-    <Link to="/portafolios" className="dex-btn gap-1.5 py-1" aria-label={`Mis portafolios: ${cardCount} cartas`}>
+    <Link
+      to="/portafolios"
+      replace={isCurrent}
+      aria-current={isCurrent ? 'page' : undefined}
+      className="dex-btn gap-1.5 py-1"
+      aria-label={`Mis portafolios: ${cardCount} cartas`}
+    >
       <span aria-hidden="true">💼</span>
       <span className="hidden sm:inline">PORTAFOLIO</span>
       <span className="min-w-[1.25rem] rounded-full bg-dex-accent px-1.5 text-center text-[10px] leading-4 text-white">

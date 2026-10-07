@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
+import BackButton from '../components/BackButton';
 import SectionPanel from '../components/SectionPanel';
 import { useCurrency } from '../context/CurrencyContext';
 import { usePortfolios } from '../context/PortfoliosContext';
@@ -72,6 +73,7 @@ export default function PortfoliosPage() {
 
   return (
     <div className="flex flex-col gap-5">
+      <BackButton />
       <SectionPanel title="Mis portafolios" aside={`${cardCount} cartas · ${portfolios.length} portafolios`}>
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>

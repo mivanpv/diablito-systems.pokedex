@@ -1,5 +1,6 @@
 import { FormEvent, useState } from 'react';
 import { Link } from 'react-router-dom';
+import BackButton from '../components/BackButton';
 import SectionPanel from '../components/SectionPanel';
 import { useCollections } from '../context/CollectionsContext';
 import { spriteUrl } from '../services/pokeapi';
@@ -18,6 +19,7 @@ export default function CollectionsPage() {
 
   return (
     <div className="flex flex-col gap-5">
+      <BackButton />
       <SectionPanel title="Mi colección" aside={`${savedCount} Pokémon guardados · ${lists.length} listas`}>
         <form onSubmit={handleCreate} className="flex gap-3">
           <input
