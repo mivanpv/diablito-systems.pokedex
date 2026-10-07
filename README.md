@@ -34,6 +34,10 @@ La app quedará en `https://mivanpv.github.io/diablito-systems.pokedex/`.
 
 ## Rutas
 
-- `#/` — Pokédex paginada con búsqueda por nombre o número
-- `#/pokemon/:name` — detalle del Pokémon y sus cartas TCG
+La Pokédex es una sola pantalla con diseño retro y tres secciones: **1) búsqueda directa** (nombre o número), **2) búsqueda avanzada** (por tipo, "Todos" por defecto, y por letra inicial) y **3) vista del Pokémon seleccionado** con sus cartas TCG.
+
+- `#/` — Pokédex sin selección (tipo "Todos" y letra "A" por defecto; `?tipo=fire&letra=C` cambia los filtros)
+- `#/pokemon/:name` — Pokédex con el Pokémon seleccionado (conserva los filtros y la pestaña abierta, p. ej. `?pestana=cartas`)
 - `#/carta/:lang/:id` — carta TCG con precios convertidos a la moneda seleccionada
+- `#/colecciones` — mis listas de Pokémon guardadas (Favoritos y las que crees), guardadas en el navegador
+- `#/portafolios` — portafolios de cartas TCG con cantidad, valor por carta y total en tu moneda

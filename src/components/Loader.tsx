@@ -1,8 +1,8 @@
-export default function Loader({ label = 'Cargando…' }: { label?: string }) {
+export default function Loader({ label = 'Cargando' }: { label?: string }) {
   return (
-    <div className="flex flex-col items-center justify-center gap-3 py-12 text-slate-500" role="status">
-      <div className="h-10 w-10 animate-spin rounded-full border-4 border-slate-200 border-t-poke-red" />
-      <span className="text-sm">{label}</span>
+    <div className="flex items-center justify-center gap-1 py-8 font-display text-xs font-bold uppercase tracking-widest text-dex-muted" role="status">
+      {label}
+      <span className="animate-blink">▮</span>
     </div>
   );
 }

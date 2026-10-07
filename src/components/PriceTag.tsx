@@ -20,7 +20,7 @@ export default function PriceTag({ amount, sourceCurrency }: PriceTagProps) {
   return (
     <span className="flex flex-col items-end leading-tight">
       <span className="font-semibold tabular-nums">{formatCurrency(converted, currency)}</span>
-      <span className="text-xs text-slate-400 tabular-nums">{original}</span>
+      <span className="text-sm text-dex-muted tabular-nums">{original}</span>
     </span>
   );
 }

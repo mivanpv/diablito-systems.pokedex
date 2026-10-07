@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://mivanpv.github.io/diablito-systems.pokedex",
   "dependencies": {
+    "@fontsource/plus-jakarta-sans": "^5.3.0",
+    "@fontsource/space-mono": "^5.3.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-router-dom": "^6.28.0",

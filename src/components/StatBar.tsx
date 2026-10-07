@@ -7,13 +7,22 @@ interface StatBarProps {
 
 export default function StatBar({ label, value }: StatBarProps) {
   const percent = Math.min(100, (value / MAX_BASE_STAT) * 100);
+  // red for low stats, navy for average, green for high
+  const color = value >= 120 ? 'bg-dex-ok' : value >= 70 ? 'bg-dex-ink' : 'bg-dex-accent';
 
   return (
-    <div className="grid grid-cols-[7rem_2.5rem_1fr] items-center gap-2 text-sm">
-      <span className="text-slate-500">{label}</span>
-      <span className="text-right font-semibold tabular-nums">{value}</span>
-      <div className="h-2 overflow-hidden rounded-full bg-slate-200">
-        <div className="h-full rounded-full bg-poke-red" style={{ width: `${percent}%` }} />
+    <div className="grid grid-cols-[7rem_2.5rem_1fr] items-center gap-3">
+      <span className="dex-label">{label}</span>
+      <span className="text-right font-display text-sm font-bold tabular-nums">{value}</span>
+      <div
+        className="h-3 overflow-hidden rounded-full border-2 border-dex-ink bg-dex-surface"
+        role="meter"
+        aria-label={label}
+        aria-valuenow={value}
+        aria-valuemin={0}
+        aria-valuemax={MAX_BASE_STAT}
+      >
+        <div className={`h-full ${color}`} style={{ width: `${percent}%` }} />
       </div>
     </div>
   );

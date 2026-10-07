@@ -6,7 +6,7 @@ export default function TypeBadge({ type }: { type: string }) {
 
   return (
     <span
-      className="rounded-full px-3 py-1 text-xs font-semibold uppercase tracking-wide text-white"
+      className="rounded border-2 border-dex-ink px-1.5 py-0.5 font-display text-[11px] font-bold uppercase text-white [text-shadow:1px_1px_0_rgba(0,0,0,0.35)]"
       style={{ backgroundColor: info?.color ?? '#64748b' }}
     >
       {info?.label ?? capitalize(type)}

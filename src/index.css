@@ -4,6 +4,86 @@
 
 @layer base {
   body {
-    @apply bg-slate-100 text-slate-800 antialiased;
+    @apply bg-dex-page font-body text-base leading-normal text-dex-ink antialiased;
+    /* dotted grid behind the device */
+    background-image: radial-gradient(#c9ced6 1px, transparent 1px);
+    background-size: 14px 14px;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-4 ring-dex-accent/40;
+  }
+}
+
+@layer components {
+  /* Outer Pokédex body that holds the header and every section. */
+  .dex-device {
+    @apply rounded-2xl border-[3px] border-dex-ink bg-dex-frame shadow-device;
+  }
+
+  /* Numbered section card ("01. Búsqueda directa"). */
+  .dex-section {
+    @apply rounded-xl border-[3px] border-dex-ink bg-dex-surface p-4 sm:p-5;
+  }
+
+  .dex-title {
+    @apply font-display text-sm font-bold uppercase tracking-[0.12em];
+  }
+
+  .dex-label {
+    @apply font-display text-[11px] font-bold uppercase tracking-[0.12em] text-dex-muted;
+  }
+
+  .dex-divider {
+    @apply border-t-2 border-dashed border-dex-line;
+  }
+
+  /* White inset box for data blocks inside a section or the viewer. */
+  .dex-tile {
+    @apply rounded-lg border-2 border-dex-line bg-dex-paper p-3;
+  }
+
+  .dex-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md border-2 border-dex-ink bg-dex-paper px-3 py-1.5 font-display text-xs font-bold text-dex-ink shadow-hard transition;
+  }
+  .dex-btn:hover:not(:disabled):not([aria-pressed='true']) {
+    @apply bg-dex-surface;
+  }
+  .dex-btn:active:not(:disabled) {
+    @apply translate-y-[2px] shadow-none;
+  }
+  .dex-btn:disabled {
+    @apply cursor-not-allowed opacity-35;
+  }
+  /* Selected chip: navy by default, red with .dex-btn-accent */
+  .dex-btn[aria-pressed='true'] {
+    @apply bg-dex-ink text-white;
+  }
+  .dex-btn-accent,
+  .dex-btn-accent[aria-pressed='true'] {
+    @apply bg-dex-accent text-white;
+  }
+  .dex-btn-accent:hover:not(:disabled) {
+    @apply bg-dex-accent-dark !important;
+  }
+  /* Letter chips: only the selected one turns red. */
+  .dex-chip-accent[aria-pressed='true'] {
+    @apply bg-dex-accent text-white;
+  }
+
+  .dex-input {
+    @apply min-w-0 rounded-md border-2 border-dex-ink bg-dex-paper px-3 py-2.5 font-display text-base text-dex-ink shadow-[inset_0_2px_0_rgba(30,37,51,0.08)] placeholder:text-dex-muted/70;
+  }
+
+  .sprite {
+    image-rendering: pixelated;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-blink,
+  .animate-pop,
+  .animate-fade {
+    animation: none;
   }
 }

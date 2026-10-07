@@ -4,12 +4,14 @@ export default function CurrencySelector() {
   const { currency, setCurrency, ratesError } = useCurrency();
 
   return (
-    <label className="flex items-center gap-2 text-sm">
-      <span>Moneda</span>
+    <label className="dex-btn cursor-pointer gap-2 py-1" title={ratesError ? ratesError.message : 'Moneda para los precios de cartas TCG'}>
+      <span className={`h-2 w-2 rounded-full ${ratesError ? 'bg-yellow-400' : 'bg-dex-ok'}`} aria-hidden="true" />
+      <span className="hidden sm:inline">MONEDA</span>
       <select
         value={currency}
         onChange={(event) => setCurrency(event.target.value)}
-        className="rounded-md border-0 bg-white px-2 py-1 text-slate-800 focus:outline-none focus:ring-2 focus:ring-poke-yellow"
+        aria-label="Moneda"
+        className="cursor-pointer bg-transparent font-display text-xs font-bold focus:outline-none"
       >
         {SUPPORTED_CURRENCIES.map((code) => (
           <option key={code} value={code}>
@@ -17,11 +19,6 @@ export default function CurrencySelector() {
           </option>
         ))}
       </select>
-      {ratesError && (
-        <span title={ratesError.message} className="text-poke-yellow">
-          ⚠ sin tipos de cambio
-        </span>
-      )}
     </label>
   );
 }
