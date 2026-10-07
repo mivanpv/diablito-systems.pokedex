@@ -28,6 +28,8 @@ export interface Pokemon {
   weight: number; // hectograms
   types: PokemonType[];
   stats: PokemonStat[];
+  /** Cry audio (OGG). `legacy` is the original 8-bit cry, only for older Pokémon. */
+  cries?: { latest: string | null; legacy: string | null };
   /** `ability` can be null for removed abilities. */
   abilities: { ability: NamedAPIResource | null; is_hidden: boolean; slot: number }[];
   /** Every move the Pokémon can learn, with how/when per game (version group). */

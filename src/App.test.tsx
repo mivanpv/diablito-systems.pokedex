@@ -52,6 +52,10 @@ const responses: Record<string, unknown> = {
     ],
     species: { name: 'charmander', url: '' },
     sprites: { front_default: null },
+    cries: {
+      latest: 'https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/4.ogg',
+      legacy: 'https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/4.ogg',
+    },
   },
   'https://pokeapi.co/api/v2/move/ember': {
     id: 52,
@@ -305,6 +309,56 @@ describe('Volver from collections and portfolios', () => {
     await click(container.querySelector('a[href="#/colecciones"]'));
     await click(buttonWithText('Volver'));
     expect(window.location.hash).toBe('#/pokemon/charmander');
+  });
+});
+
+describe('Pokémon cry', () => {
+  const latestLabel = 'button[aria-label="Escuchar el grito de Charmander"]';
+  const legacyLabel = 'button[aria-label="Escuchar el grito clásico (8 bits) de Charmander"]';
+  let played: string[];
+  let playResult: () => Promise<void>;
+
+  beforeEach(() => {
+    played = [];
+    playResult = () => Promise.resolve();
+    jest.spyOn(HTMLMediaElement.prototype, 'canPlayType').mockReturnValue('probably');
+    jest.spyOn(HTMLMediaElement.prototype, 'pause').mockImplementation(() => undefined);
+    jest.spyOn(HTMLMediaElement.prototype, 'play').mockImplementation(function (this: HTMLMediaElement) {
+      played.push(this.src);
+      return playResult();
+    });
+  });
+
+  afterEach(() => {
+    // unmount while pause() is still mocked: CryButton stops the audio on unmount
+    act(() => root.unmount());
+    jest.restoreAllMocks();
+  });
+
+  it('plays the latest and the classic 8-bit cry', async () => {
+    await renderAt('#/pokemon/charmander');
+    await click(container.querySelector(latestLabel));
+    expect(played).toEqual(['https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/4.ogg']);
+    expect(container.querySelector(latestLabel)?.textContent).toBe('🔊'); // playing
+
+    await click(container.querySelector(legacyLabel));
+    expect(played[1]).toBe('https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/legacy/4.ogg');
+    expect(container.querySelector(latestLabel)?.textContent).toBe('🔈');
+  });
+
+  it('says so when the audio cannot be played', async () => {
+    playResult = () => Promise.reject(new Error('NotSupportedError'));
+    await renderAt('#/pokemon/charmander');
+    await click(container.querySelector(latestLabel));
+    expect(container.textContent).toContain('No se pudo reproducir');
+  });
+
+  it('is disabled with an explanation in browsers without OGG support', async () => {
+    jest.spyOn(HTMLMediaElement.prototype, 'canPlayType').mockReturnValue('');
+    await renderAt('#/pokemon/charmander');
+    const button = container.querySelector(latestLabel) as HTMLButtonElement;
+    expect(button.disabled).toBe(true);
+    expect(button.title).toContain('OGG');
   });
 });
 

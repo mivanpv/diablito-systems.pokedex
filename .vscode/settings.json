@@ -1,0 +1,6 @@
+{
+  // Use the project's TypeScript (4.9, the newest react-scripts 5 supports) instead of the one
+  // bundled with VS Code, so the editor reports the same diagnostics as `npm run build`.
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}

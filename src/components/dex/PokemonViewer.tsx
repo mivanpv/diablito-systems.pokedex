@@ -21,6 +21,7 @@ import AbilitiesSection from './AbilitiesSection';
 import EvolutionBubbles from './EvolutionBubbles';
 import EvolutionSection from './EvolutionSection';
 import MovesSection from './MovesSection';
+import CryButton from './CryButton';
 import SaveToCollection from './SaveToCollection';
 import TcgCardsSection from './TcgCardsSection';
 
@@ -136,6 +137,7 @@ function ViewerContent({ name, tab, onTab, shiny, onShiny }: ViewerContentProps)
       <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-dashed border-dex-line pb-3">
         <div className="flex flex-wrap items-center gap-3">
           <h3 className="font-display text-2xl font-bold leading-tight sm:text-3xl">{displayName}</h3>
+          <CryButton cries={pokemon.cries} displayName={displayName} />
           <SaveToCollection pokemon={{ id: pokemon.id, name: pokemon.name }} displayName={displayName} />
         </div>
         <span className="font-display text-lg font-bold text-dex-accent">{padId(pokemon.id)}</span>
