@@ -10,13 +10,15 @@ npm run build                               # production build into build/
 CI=true npm test -- --watchAll=false        # run all tests once
 npm test -- src/utils/format.test.ts        # run a single test file (add -t "name" for one test)
 npx tsc --noEmit                            # type-check only
-npm run deploy                              # build + publish build/ to the gh-pages branch
+npm run deploy                              # build + publish build/ to the gh-pages branch (manual alternative to CI)
 ```
+
+There is no separate lint script. ESLint (`react-app` config) runs inside `npm start` and `npm run build`. With `CI=true`, which GitHub Actions sets, CRA treats lint warnings as build errors, so run `CI=true npm run build` locally before pushing.
 
 ## Hard constraints
 
 - **Client-side only.** No backend. All data comes from three keyless public APIs called directly from the browser: PokéAPI, TCGdex and ExchangeRate-API (`open.er-api.com`, base USD). Don't introduce a server, proxy, or API keys.
-- **GitHub Pages deployment.** `package.json` `homepage` (`https://mivanpv.github.io/diablito-systems.pokedex`) sets the asset base path. Routing must stay on `HashRouter` (`src/App.tsx`); `BrowserRouter` would 404 on deep links.
+- **GitHub Pages deployment.** `.github/workflows/jekyll-gh-pages.yml` builds with Node 20 and deploys through the Pages artifact on every push to `main`. Despite the file name, it doesn't use Jekyll. It deliberately uses `npm install`, not `npm ci`. `package.json` `homepage` (`https://mivanpv.github.io/diablito-systems.pokedex`) sets the asset base path. Routing must stay on `HashRouter` (`src/App.tsx`); `BrowserRouter` would 404 on deep links.
 - **Create React App** (`react-scripts@5.0.1`). React is pinned to 18.3.1 and TypeScript to 4.9 because react-scripts 5 doesn't support newer versions. VS Code's bundled TypeScript 6 flags `moduleResolution: "node"` as deprecated. Don't "fix" that in `tsconfig.json`: `"bundler"` and `ignoreDeprecations` don't exist in 4.9 and would break the build. `.vscode/settings.json` points the editor at the workspace TypeScript instead. Tailwind must stay on v3 (PostCSS plugin), because CRA can't use Tailwind v4.
 - UI text is Spanish. Default currency is MXN.
 
