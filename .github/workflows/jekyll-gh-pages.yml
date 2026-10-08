@@ -24,8 +24,15 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: 'npm'
+
+      # npm install downloads the Cypress binary (~500 MB) unless it is already cached.
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
 
       - name: Install dependencies
         run: npm install
@@ -34,6 +41,17 @@ jobs:
         run: npm test -- --watchAll=false
         env:
           CI: true
+
+      - name: Run end-to-end tests (Cypress)
+        run: npm run test:e2e
+
+      - name: Upload Cypress screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
+          if-no-files-found: ignore
 
       - name: Build project
         run: npm run build

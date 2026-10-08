@@ -13,9 +13,13 @@ Pokédex 100 % client-side hecha con React 18, TypeScript y Tailwind CSS (Create
 ```bash
 npm install
 npm start          # http://localhost:3000
-npm test           # pruebas en modo watch
+npm test           # pruebas unitarias en modo watch
+npm run test:e2e   # pruebas funcionales (Cypress): levanta el servidor, corre todo y lo detiene
+npm run cy:open    # Cypress interactivo (requiere `npm run start:e2e` en otra terminal)
 npm run build      # build de producción en /build
 ```
+
+Se requiere Node 22 o superior (Cypress 16). Las pruebas funcionales viven en `cypress/e2e/` y no llaman a las APIs reales: `cypress/support/api.ts` responde cada URL con datos fijos.
 
 ## Despliegue en GitHub Pages
 

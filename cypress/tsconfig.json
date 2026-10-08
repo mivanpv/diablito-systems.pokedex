@@ -1,0 +1,15 @@
+{
+  // Separate from the root tsconfig (which only includes src/) so Cypress's Mocha/Chai globals
+  // don't clash with Jest's.
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["es2017", "dom"],
+    "types": ["cypress", "node"],
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "noEmit": true
+  },
+  "include": ["**/*.ts", "../cypress.config.ts"]
+}
