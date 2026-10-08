@@ -11,7 +11,7 @@ export default function StatBar({ label, value }: StatBarProps) {
   const color = value >= 120 ? 'bg-dex-ok' : value >= 70 ? 'bg-dex-ink' : 'bg-dex-accent';
 
   return (
-    <div className="grid grid-cols-[7rem_2.5rem_1fr] items-center gap-3">
+    <div className="grid grid-cols-[5.5rem_2rem_1fr] items-center gap-2 sm:grid-cols-[7rem_2.5rem_1fr] sm:gap-3">
       <span className="dex-label">{label}</span>
       <span className="text-right font-display text-sm font-bold tabular-nums">{value}</span>
       <div

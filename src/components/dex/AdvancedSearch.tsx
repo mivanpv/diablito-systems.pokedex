@@ -51,12 +51,12 @@ export default function AdvancedSearch({ selected, total }: AdvancedSearchProps)
           <span className="dex-label">Tipo seleccionado:</span>
           <span className="font-display text-xs font-bold uppercase text-dex-accent">{typeLabel}</span>
         </legend>
-        <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
-          <button className="dex-btn" aria-pressed={type === ALL_TYPES} onClick={() => setType(ALL_TYPES)}>
+        <div className="grid grid-cols-2 gap-2 min-[360px]:grid-cols-3 sm:grid-cols-5">
+          <button className="dex-btn px-1 sm:px-3" aria-pressed={type === ALL_TYPES} onClick={() => setType(ALL_TYPES)}>
             Todos
           </button>
           {Object.entries(TYPE_INFO).map(([key, info]) => (
-            <button key={key} className="dex-btn" aria-pressed={type === key} onClick={() => setType(key)}>
+            <button key={key} className="dex-btn px-1 sm:px-3" aria-pressed={type === key} onClick={() => setType(key)}>
               {info.label}
             </button>
           ))}

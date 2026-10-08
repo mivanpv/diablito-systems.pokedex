@@ -29,7 +29,7 @@ export default function DexPage() {
 
   return (
     // Desktop: viewer on the left, search sections on the right. Mobile: search first, viewer last.
-    <div className="grid gap-5 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
+    <div className="grid grid-cols-1 gap-5 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-start">
       <div className="flex flex-col gap-5 lg:order-2">
         <DirectSearch all={all.data} offline={all.error !== null} />
         <AdvancedSearch selected={selected} total={all.data?.length ?? null} />

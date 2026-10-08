@@ -83,7 +83,7 @@ export default function PortfoliosPage() {
               Rango: {format(grandTotal.low)} – {format(grandTotal.high)} · en {currency}
             </p>
           </div>
-          <form onSubmit={handleCreate} className="flex min-w-[16rem] flex-1 gap-3 sm:max-w-md">
+          <form onSubmit={handleCreate} className="flex min-w-0 basis-full gap-3 sm:min-w-[16rem] sm:max-w-md sm:flex-1">
             <input
               value={newName}
               onChange={(event) => setNewName(event.target.value)}

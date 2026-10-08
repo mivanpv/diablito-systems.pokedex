@@ -52,7 +52,7 @@ function Light({ className }: { className: string }) {
 
 export default function Header() {
   return (
-    <header className="grid grid-cols-[auto_1fr_auto] items-center gap-3 border-b-[3px] border-dex-ink bg-dex-frame px-3 py-3 sm:px-5">
+    <header className="grid grid-cols-[auto_1fr] items-center gap-3 sm:grid-cols-[auto_1fr_auto] border-b-[3px] border-dex-ink bg-dex-frame px-3 py-3 sm:px-5">
       <Link to="/" className="flex items-center gap-3" aria-label="Pokédex, inicio">
         {/* Blue lens + status lights from the original device */}
         <span className="relative h-11 w-11 shrink-0 rounded-full border-[3px] border-dex-ink bg-gradient-to-br from-sky-300 via-sky-500 to-blue-700 shadow-[0_0_0_3px_#fff_inset]">
@@ -72,7 +72,7 @@ export default function Header() {
         </span>
       </Link>
 
-      <div className="flex flex-wrap items-center justify-end gap-2">
+      <div className="col-span-2 flex flex-wrap items-center justify-center gap-2 sm:col-span-1 sm:justify-end">
         <CollectionLink />
         <PortfolioLink />
         <CurrencySelector />

@@ -172,7 +172,7 @@ function ViewerContent({ name, tab, onTab, shiny, onShiny }: ViewerContentProps)
           aria-pressed={showEvolutions}
           onClick={() => setShowEvolutions((open) => !open)}
         >
-          ⇄ Evoluciones
+          ⇄ <span className="sr-only min-[360px]:not-sr-only">Evoluciones</span>
         </button>
         {canShiny && (
           <button
@@ -186,7 +186,7 @@ function ViewerContent({ name, tab, onTab, shiny, onShiny }: ViewerContentProps)
       </div>
 
       {/* Tabs */}
-      <div role="tablist" aria-label="Información del Pokémon" className="grid grid-cols-3 gap-1 rounded-lg border-2 border-dex-ink bg-dex-surface p-1 sm:grid-cols-5">
+      <div role="tablist" aria-label="Información del Pokémon" className="grid grid-cols-2 gap-1 rounded-lg border-2 border-dex-ink bg-dex-surface p-1 sm:grid-cols-5">
         {TABS.map((t) => (
           <button
             key={t.id}
@@ -195,7 +195,7 @@ function ViewerContent({ name, tab, onTab, shiny, onShiny }: ViewerContentProps)
             aria-selected={tab === t.id}
             aria-controls={`panel-${t.id}`}
             onClick={() => onTab(t.id)}
-            className={`flex items-center justify-center gap-1 rounded-md px-1 py-2 font-display text-[11px] font-bold transition ${
+            className={`flex items-center justify-center gap-1 rounded-md px-1 py-2 last:col-span-2 sm:last:col-span-1 font-display text-[11px] font-bold transition ${
               tab === t.id ? 'border-2 border-dex-ink bg-dex-paper shadow-hard' : 'border-2 border-transparent text-dex-muted hover:text-dex-ink'
             }`}
           >

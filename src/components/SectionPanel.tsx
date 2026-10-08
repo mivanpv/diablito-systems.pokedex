@@ -15,7 +15,7 @@ const SectionPanel = forwardRef<HTMLElement, SectionPanelProps>(function Section
 ) {
   return (
     <section ref={ref} className={`dex-section flex scroll-mt-4 flex-col gap-4 ${className}`}>
-      <div className="flex items-center justify-between gap-3 border-b-2 border-dashed border-dex-line pb-3">
+      <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-1 border-b-2 border-dashed border-dex-line pb-3">
         <h2 className="dex-title">{title}</h2>
         {aside && <div className="shrink-0 font-display text-[11px] text-dex-muted">{aside}</div>}
       </div>

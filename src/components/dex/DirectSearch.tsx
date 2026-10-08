@@ -70,14 +70,15 @@ export default function DirectSearch({ all, offline }: DirectSearchProps) {
             <option key={p.id} value={p.name} />
           ))}
         </datalist>
-        <button type="submit" className="dex-btn dex-btn-accent px-4 text-sm">
+        <button type="submit" className="dex-btn dex-btn-accent px-3 text-sm min-[360px]:px-4">
           <SearchIcon />
-          BUSCAR
+          {/* icon-only on the narrowest phones, so the input keeps room for its placeholder */}
+          <span className="sr-only min-[360px]:not-sr-only">BUSCAR</span>
         </button>
       </form>
       <div className="flex items-center justify-between gap-3">
         <p className="text-sm text-dex-muted">Ej. pikachu, 25 o #006</p>
-        <button type="button" className="dex-btn" onClick={openRandom} disabled={!all}>
+        <button type="button" className="dex-btn shrink-0 whitespace-nowrap" onClick={openRandom} disabled={!all}>
           ⚄ Aleatorio
         </button>
       </div>
