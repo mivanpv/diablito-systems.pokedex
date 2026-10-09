@@ -36,6 +36,7 @@ const pages: [string, string, () => void][] = [
   ['Movimientos', '/#/pokemon/charmander?pestana=movimientos', () => cy.contains('Ascuas')],
   ['Cartas TCG', '/#/pokemon/charmander?pestana=cartas', () => cy.contains('Mercado')],
   ['a card page', '/#/carta/es/sv03.5-004', () => cy.contains('Volver')],
+  ['the help page', '/#/ayuda', () => cy.contains('Descargar PDF')],
 ];
 
 describe('Small screens', () => {

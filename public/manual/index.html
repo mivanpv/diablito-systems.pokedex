@@ -1,0 +1,599 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="../favicon.svg">
+<title>Pokédex · Manual de usuario</title>
+<!--
+  Manual de usuario. La app lo enlaza desde la página Ayuda (#/ayuda). Para regenerar:
+    npm run manual:capturas   (capturas de pantalla en img/, contra las APIs reales)
+    npm run manual:pdf        (Manual-de-usuario.pdf, en esta misma carpeta)
+-->
+<style>
+  @font-face { font-family: 'Space Mono'; font-weight: 400; src: url('fonts/space-mono-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Space Mono'; font-weight: 700; src: url('fonts/space-mono-latin-700-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Plus Jakarta Sans'; font-weight: 400; src: url('fonts/plus-jakarta-sans-latin-400-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Plus Jakarta Sans'; font-weight: 600; src: url('fonts/plus-jakarta-sans-latin-600-normal.woff2') format('woff2'); }
+  @font-face { font-family: 'Plus Jakarta Sans'; font-weight: 700; src: url('fonts/plus-jakarta-sans-latin-700-normal.woff2') format('woff2'); }
+
+  :root {
+    --ink: #1e2533;
+    --frame: #d9dce1;
+    --surface: #f1f3f5;
+    --line: #cfd5dd;
+    --muted: #6b7685;
+    --accent: #dc2638;
+    --ok: #16a34a;
+  }
+
+  @page {
+    size: A4;
+    margin: 18mm 17mm 20mm;
+    @bottom-left { content: 'Pokédex · Manual de usuario'; font: 8pt 'Space Mono', monospace; color: #6b7685; }
+    @bottom-right { content: counter(page); font: 700 8pt 'Space Mono', monospace; color: #1e2533; }
+  }
+  @page :first {
+    margin: 0;
+    @bottom-left { content: none; }
+    @bottom-right { content: none; }
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0;
+    background: #fff;
+    color: var(--ink);
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+    font-size: 10.5pt;
+    line-height: 1.55;
+  }
+  main { max-width: 176mm; margin: 0 auto; }
+
+  h1, h2, h3, .mono { font-family: 'Space Mono', ui-monospace, monospace; }
+  h2 {
+    break-before: page;
+    margin: 0 0 6mm;
+    padding-bottom: 3mm;
+    border-bottom: 3px solid var(--ink);
+    font-size: 17pt;
+    letter-spacing: 0.04em;
+  }
+  h2 .num { color: var(--accent); margin-right: 3mm; }
+  h3 { margin: 7mm 0 2mm; font-size: 12pt; break-after: avoid; }
+  p { margin: 0 0 3mm; }
+  ul, ol { margin: 0 0 3mm; padding-left: 6mm; }
+  li { margin-bottom: 1.2mm; }
+  b, strong { font-weight: 700; }
+  a { color: var(--ink); }
+
+  /* elementos de la interfaz mencionados en el texto */
+  .ui {
+    font-family: 'Space Mono', monospace;
+    font-size: 9pt;
+    font-weight: 700;
+    padding: 0.2mm 1.6mm;
+    border: 1.5px solid var(--ink);
+    border-radius: 1.5mm;
+    background: #fff;
+    white-space: nowrap;
+  }
+
+  figure { margin: 4mm 0 5mm; break-inside: avoid; text-align: center; }
+  figure img {
+    max-width: 100%;
+    border: 1.5px solid var(--line);
+    border-radius: 2mm;
+  }
+  figure.tall img { max-height: 205mm; }
+  figure.mid img { max-height: 120mm; }
+  figure.wide img { max-height: 100mm; }
+  figure.small img { max-height: 70mm; }
+  figcaption { margin-top: 1.5mm; font-size: 8.5pt; color: var(--muted); }
+  figcaption b { color: var(--ink); font-family: 'Space Mono', monospace; }
+
+  /* texto a la izquierda, captura alta a la derecha */
+  .split { display: grid; grid-template-columns: 1fr 78mm; gap: 7mm; align-items: start; }
+  .split figure { margin-top: 0; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 6mm; }
+
+  .note, .tip {
+    margin: 4mm 0;
+    padding: 3mm 4mm;
+    border-left: 4px solid var(--ink);
+    background: var(--surface);
+    border-radius: 0 2mm 2mm 0;
+    break-inside: avoid;
+  }
+  .tip { border-left-color: var(--ok); }
+  .note::before, .tip::before {
+    display: block;
+    font-family: 'Space Mono', monospace;
+    font-size: 8pt;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    margin-bottom: 1mm;
+  }
+  .note::before { content: 'IMPORTANTE'; }
+  .tip::before { content: 'CONSEJO'; color: var(--ok); }
+
+  table { width: 100%; border-collapse: collapse; margin: 3mm 0 5mm; font-size: 9.5pt; break-inside: avoid; }
+  th, td { text-align: left; vertical-align: top; padding: 2mm 3mm; border-bottom: 1px dashed var(--line); }
+  th { font-family: 'Space Mono', monospace; font-size: 8.5pt; border-bottom: 2px solid var(--ink); }
+
+  /* portada */
+  .cover {
+    height: 297mm;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 30mm 22mm 22mm;
+    background: var(--frame);
+    border-bottom: 8mm solid var(--ink);
+  }
+  .lens {
+    width: 26mm; height: 26mm; border-radius: 50%;
+    border: 2mm solid var(--ink);
+    background: radial-gradient(circle at 35% 30%, #fff 0 12%, #7dd3fc 13%, #0ea5e9 45%, #1d4ed8 100%);
+  }
+  .lights { display: flex; gap: 3mm; margin-top: 6mm; }
+  .lights span { width: 6mm; height: 6mm; border-radius: 50%; border: 1.2mm solid var(--ink); }
+  .cover h1 { margin: 0; font-size: 40pt; letter-spacing: 0.25em; }
+  .cover .subtitle { font-family: 'Space Mono', monospace; font-size: 14pt; color: var(--accent); font-weight: 700; letter-spacing: 0.1em; }
+  .cover .meta { font-size: 10pt; color: var(--muted); line-height: 1.8; }
+  .cover .meta b { color: var(--ink); }
+
+  /* índice */
+  .toc { break-before: page; }
+  .toc h2 { break-before: avoid; }
+  .toc ol { list-style: none; padding: 0; }
+  .toc li { display: flex; gap: 4mm; padding: 2mm 0; border-bottom: 1px dashed var(--line); font-size: 11pt; }
+  .toc .num { font-family: 'Space Mono', monospace; color: var(--accent); font-weight: 700; width: 8mm; }
+  .toc a { text-decoration: none; }
+
+  /* barra superior: solo en pantalla, no se imprime */
+  .screen-bar { display: none; }
+
+  @media screen {
+    body { background: #e8eaed; padding: 0 0 10mm; }
+    .screen-bar {
+      position: sticky; top: 0; z-index: 10;
+      display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px;
+      padding: 8px 16px; margin-bottom: 10mm;
+      background: var(--frame); border-bottom: 3px solid var(--ink);
+    }
+    .screen-bar a {
+      font: 700 9pt 'Space Mono', monospace; text-decoration: none;
+      padding: 4px 10px; border: 2px solid var(--ink); border-radius: 6px; background: #fff;
+      box-shadow: 0 2px 0 0 var(--ink);
+    }
+    .screen-bar a.accent { background: var(--accent); color: #fff; }
+    main { background: #fff; padding: 0 0 20mm; box-shadow: 0 2px 12px rgba(0,0,0,.15); }
+    main > section:not(.cover) { padding: 0 17mm; }
+    h2 { margin-top: 18mm; scroll-margin-top: 60px; }
+    section { scroll-margin-top: 60px; }
+  }
+
+  /* celular */
+  @media screen and (max-width: 720px) {
+    body { padding: 0; font-size: 11pt; }
+    .screen-bar { margin-bottom: 0; }
+    main { box-shadow: none; }
+    main > section:not(.cover) { padding: 0 16px; }
+    .cover { height: auto; min-height: 520px; padding: 40px 24px; gap: 32px; border-bottom-width: 16px; }
+    .cover h1 { font-size: 30pt; }
+    .split, .pair { grid-template-columns: 1fr; gap: 0; }
+    figure.tall img, figure.mid img, figure.wide img, figure.small img { max-height: none; }
+    table { font-size: 9.5pt; }
+    th, td { padding: 6px 6px; }
+    .ui { white-space: normal; }
+  }
+</style>
+</head>
+<body>
+<nav class="screen-bar" aria-label="Manual">
+  <a href="../#/">◄ Volver a la Pokédex</a>
+  <a class="accent" href="Manual-de-usuario.pdf" download="Manual-de-usuario-Pokedex.pdf">⇩ Descargar PDF</a>
+</nav>
+<main>
+
+<section class="cover">
+  <div>
+    <div class="lens"></div>
+    <div class="lights"><span style="background:#ef4444"></span><span style="background:#facc15"></span><span style="background:#22c55e"></span></div>
+  </div>
+  <div>
+    <h1>POKÉDEX</h1>
+    <p class="subtitle">MANUAL DE USUARIO</p>
+    <p style="max-width:130mm">Guía para consultar Pokémon, revisar sus cartas del juego de cartas coleccionables (TCG) con precios en tu moneda y organizar tus colecciones y portafolios.</p>
+  </div>
+  <div class="meta">
+    <b>Diablito Systems</b><br>
+    Versión 1.0 · Octubre de 2026<br>
+    https://mivanpv.github.io/diablito-systems.pokedex
+  </div>
+</section>
+
+<section class="toc">
+  <h2>Contenido</h2>
+  <ol>
+    <li><span class="num">1</span><a href="#intro">Introducción</a></li>
+    <li><span class="num">2</span><a href="#acceso">Requisitos y acceso</a></li>
+    <li><span class="num">3</span><a href="#pantalla">Conoce la pantalla</a></li>
+    <li><span class="num">4</span><a href="#buscar">Buscar un Pokémon</a></li>
+    <li><span class="num">5</span><a href="#visor">El visor del Pokémon</a></li>
+    <li><span class="num">6</span><a href="#pestanas">Las pestañas de información</a></li>
+    <li><span class="num">7</span><a href="#cartas">Cartas TCG y precios</a></li>
+    <li><span class="num">8</span><a href="#colecciones">Mis colecciones</a></li>
+    <li><span class="num">9</span><a href="#portafolios">Mis portafolios de cartas</a></li>
+    <li><span class="num">10</span><a href="#celular">Uso en el celular</a></li>
+    <li><span class="num">11</span><a href="#faq">Preguntas frecuentes y solución de problemas</a></li>
+  </ol>
+</section>
+
+<section id="intro">
+  <h2><span class="num">1</span>Introducción</h2>
+  <p>La <b>Pokédex</b> es una aplicación web inspirada en el dispositivo de la serie Pokémon. Con ella puedes:</p>
+  <ul>
+    <li>Buscar cualquiera de los más de 1,000 Pokémon por nombre o número, o explorar la lista por tipo y por letra inicial.</li>
+    <li>Consultar la descripción de cada uno, su especie, tipo, peso, altura, habilidades, estadísticas, cadena evolutiva y movimientos por juego.</li>
+    <li>Escuchar su grito y verlo en su versión <i>shiny</i> (de color alternativo).</li>
+    <li>Ver las cartas del juego de cartas coleccionables (TCG) de cada Pokémon con su precio de mercado, convertido a la moneda que elijas.</li>
+    <li>Guardar tus Pokémon favoritos en <b>colecciones</b> y tus cartas en <b>portafolios</b> que calculan su valor total.</li>
+  </ul>
+  <p>Toda la aplicación está en español y los precios se muestran en pesos mexicanos (MXN) de forma predeterminada.</p>
+
+  <h3>De dónde vienen los datos</h3>
+  <table>
+    <tr><th>Fuente</th><th>Qué aporta</th></tr>
+    <tr><td><b>PokéAPI</b></td><td>Pokémon, especies, habilidades, evoluciones, movimientos, imágenes y gritos.</td></tr>
+    <tr><td><b>TCGdex</b></td><td>Cartas del TCG, su información y sus precios en TCGplayer (dólares) y Cardmarket (euros).</td></tr>
+    <tr><td><b>ExchangeRate-API</b></td><td>Tipos de cambio para convertir los precios a tu moneda.</td></tr>
+  </table>
+  <p>Son servicios públicos y gratuitos. La Pokédex los consulta directamente desde tu navegador: no necesitas crear una cuenta ni iniciar sesión.</p>
+</section>
+
+<section id="acceso">
+  <h2><span class="num">2</span>Requisitos y acceso</h2>
+  <h3>Qué necesitas</h3>
+  <ul>
+    <li>Un navegador actualizado: Chrome, Edge, Firefox o Safari, en computadora, tableta o celular.</li>
+    <li>Conexión a internet: la información se descarga en el momento en que la consultas.</li>
+  </ul>
+  <h3>Cómo entrar</h3>
+  <p>Abre la siguiente dirección en tu navegador:</p>
+  <p class="mono" style="font-size:11pt"><b>https://mivanpv.github.io/diablito-systems.pokedex</b></p>
+  <p>No hay nada que instalar. Si quieres tenerla a la mano, agrégala a tus marcadores o, en el celular, usa la opción <i>Agregar a la pantalla de inicio</i> de tu navegador.</p>
+  <p>La primera vez que entras aparece un aviso de bienvenida con el botón <span class="ui">Ver ayuda</span>, que lleva a este manual. Ciérralo con la <span class="ui">✕</span> si no lo necesitas; no vuelve a aparecer. El manual siempre está disponible desde el botón <span class="ui">? AYUDA</span> del encabezado, para leerlo en línea o descargarlo en PDF.</p>
+
+  <div class="note">Tus colecciones, portafolios y la moneda elegida se guardan <b>solo en el navegador y el equipo que estás usando</b>. No se sincronizan con otros dispositivos, y se borran si limpias los datos de navegación del sitio o si usas una ventana privada o de incógnito.</div>
+</section>
+
+<section id="pantalla">
+  <h2><span class="num">3</span>Conoce la pantalla</h2>
+  <p>Toda la Pokédex funciona en una sola pantalla. En una computadora se ve así:</p>
+  <figure class="wide">
+    <img src="img/01-inicio.png" alt="Pantalla inicial de la Pokédex">
+    <figcaption><b>Figura 1.</b> Pantalla inicial: el visor a la izquierda y las búsquedas a la derecha.</figcaption>
+  </figure>
+  <ol>
+    <li><b>Encabezado</b>, en la parte superior.</li>
+    <li><b>Visor del Pokémon</b> (izquierda): el marco oscuro donde aparece el Pokémon que selecciones. Mientras no elijas ninguno, muestra «Selecciona un Pokémon».</li>
+    <li><b>Búsqueda directa</b> (derecha, arriba): para ir directo a un Pokémon por nombre o número.</li>
+    <li><b>Índice por tipo y letra</b> (derecha, abajo): para explorar la lista de Pokémon con filtros.</li>
+  </ol>
+
+  <h3>El encabezado</h3>
+  <figure>
+    <img src="img/02-encabezado.png" alt="Encabezado">
+    <figcaption><b>Figura 2.</b> Encabezado con los accesos a Colección, Portafolio, Moneda y Ayuda.</figcaption>
+  </figure>
+  <ul>
+    <li><b>Logotipo «POKÉDEX»</b>: haz clic en él para volver a la pantalla inicial.</li>
+    <li><span class="ui">★ COLECCIÓN</span>: abre tus colecciones de Pokémon. El número rojo indica cuántos Pokémon tienes guardados (ver capítulo 8).</li>
+    <li><span class="ui">💼 PORTAFOLIO</span>: abre tus portafolios de cartas. El número rojo indica cuántas cartas tienes guardadas (ver capítulo 9).</li>
+    <li><span class="ui">? AYUDA</span>: abre la página de ayuda, donde puedes leer este manual en línea o descargarlo en PDF. Desde ahí también puedes ir directo a cualquier tema.</li>
+    <li><span class="ui">MONEDA MXN</span>: elige la moneda en la que se muestran los precios de las cartas. Puedes elegir MXN, USD, EUR, GBP, JPY, CAD, ARS, CLP, COP o PEN. Tu elección se recuerda para la próxima visita. El punto verde indica que los tipos de cambio se cargaron bien; si aparece amarillo, no se pudieron obtener y los precios se muestran en su moneda original.</li>
+  </ul>
+</section>
+
+<section id="buscar">
+  <h2><span class="num">4</span>Buscar un Pokémon</h2>
+
+  <h3>4.1 Búsqueda directa</h3>
+  <figure class="small">
+    <img src="img/03-busqueda-directa.png" alt="Búsqueda directa">
+    <figcaption><b>Figura 3.</b> Búsqueda directa.</figcaption>
+  </figure>
+  <ol>
+    <li>Escribe en el campo <b>«Nombre o número…»</b> el nombre del Pokémon (por ejemplo, <i>pikachu</i>) o su número de la Pokédex (<i>25</i> o <i>#025</i>).</li>
+    <li>Mientras escribes, el navegador te sugiere nombres; puedes elegir uno de la lista.</li>
+    <li>Presiona <b>Enter</b> o el botón <span class="ui">BUSCAR</span>. El Pokémon aparece en el visor.</li>
+  </ol>
+  <p>El botón <span class="ui">⚄ Aleatorio</span> abre un Pokémon al azar de toda la Pokédex.</p>
+  <p>El indicador de la esquina derecha muestra el estado de la conexión: <b style="color:var(--ok)">EN LÍNEA</b> cuando la lista de Pokémon ya se cargó, <b>CONECTANDO</b> mientras se carga y <b style="color:var(--accent)">SIN CONEXIÓN</b> si no se pudo cargar.</p>
+  <div class="tip">Los nombres se escriben en inglés, tal como aparecen en el índice (por ejemplo, <i>mr-mime</i> o <i>mr mime</i>). Si no recuerdas el nombre exacto, busca por número o usa el índice.</div>
+  <p>Si el nombre o el número no existen, el visor muestra <b>«¡Pokémon no encontrado!»</b>. Revisa lo que escribiste e inténtalo de nuevo.</p>
+
+  <h3>4.2 Índice por tipo y letra</h3>
+  <div class="split">
+    <div>
+      <p>El índice te permite explorar la Pokédex sin conocer el nombre del Pokémon.</p>
+      <ol>
+        <li><b>Elige un tipo</b>: <span class="ui">Todos</span> (predeterminado), Normal, Fuego, Agua, Eléctrico, Planta, etc. El tipo elegido se resalta en azul marino y su nombre aparece en rojo junto a «Tipo seleccionado».</li>
+        <li><b>Elige la primera letra</b> del nombre. La letra activa se resalta en rojo. Las letras sin Pokémon del tipo elegido aparecen deshabilitadas.</li>
+        <li>En la lista de resultados aparecen todos los Pokémon que cumplen ambos filtros, con su imagen y su número. Desplázate dentro de la lista para verlos todos.</li>
+        <li>Haz clic en un Pokémon para abrirlo en el visor. El seleccionado se resalta en azul marino.</li>
+      </ol>
+      <p>Siempre hay una letra seleccionada (la <b>A</b> al principio). Si cambias a un tipo que no tiene Pokémon con esa letra, el índice salta automáticamente a la primera letra disponible.</p>
+      <p>En la parte superior derecha se muestra el total de Pokémon indexados.</p>
+    </div>
+    <figure>
+      <img src="img/04-indice.png" alt="Índice por tipo y letra">
+      <figcaption><b>Figura 4.</b> Índice con el tipo Fuego y la letra C.</figcaption>
+    </figure>
+  </div>
+  <div class="tip">Los filtros se conservan mientras navegas entre Pokémon, e incluso si recargas la página. También quedan en la dirección del navegador, así que puedes compartir el enlace y la otra persona verá lo mismo que tú.</div>
+</section>
+
+<section id="visor">
+  <h2><span class="num">5</span>El visor del Pokémon</h2>
+  <div class="split">
+    <div>
+      <p>Al seleccionar un Pokémon, el visor muestra su ficha completa:</p>
+      <ul>
+        <li><b>Nombre</b> en español y <b>número</b> de la Pokédex (en rojo, a la derecha).</li>
+        <li><span class="ui">🔈</span> reproduce el <b>grito</b> actual del Pokémon y <span class="ui">8-bit</span>, cuando existe, su grito clásico de los primeros juegos. Mientras suena, el botón parpadea. El sonido se detiene al cambiar de Pokémon.</li>
+        <li><span class="ui">☆ Agregar a Favoritos</span> lo guarda en una colección (ver capítulo 8).</li>
+        <li><b>Escenario</b> con la imagen del Pokémon y sus <b>tipos</b> en la esquina superior izquierda.</li>
+        <li><span class="ui">⇄ Evoluciones</span> y <span class="ui">★ Shiny</span>, descritos a continuación.</li>
+        <li><b>Pestañas</b> con la información detallada (capítulo 6).</li>
+        <li>Botones <span class="ui">◄ #0005</span> y <span class="ui">#0007 ►</span> en la parte inferior, para ir al Pokémon anterior o siguiente por número.</li>
+      </ul>
+      <div class="note">En Safari (iPhone, iPad y Mac) los botones de grito aparecen deshabilitados, porque ese navegador no reproduce el formato de audio que usan los gritos. Al pasar el cursor sobre ellos se muestra la explicación. Usa Chrome, Edge o Firefox para escucharlos.</div>
+    </div>
+    <figure class="tall">
+      <img src="img/05-visor-datos.png" alt="Visor con Charizard">
+      <figcaption><b>Figura 5.</b> Visor con Charizard en la pestaña Datos.</figcaption>
+    </figure>
+  </div>
+
+  <h3>Versión shiny</h3>
+  <p>Presiona <span class="ui">★ Shiny</span> para ver al Pokémon con su coloración alternativa. Vuelve a presionarlo para regresar a la normal. La opción se mantiene activa mientras pasas de un Pokémon a otro. Si un Pokémon no tiene imagen shiny, el botón no aparece.</p>
+
+  <h3>Burbujas de evolución</h3>
+  <p>Haz clic sobre la imagen del Pokémon o en <span class="ui">⇄ Evoluciones</span>. Alrededor aparecen burbujas con sus evoluciones: las <b>anteriores a la izquierda</b> (marcadas con ◄) y las <b>siguientes a la derecha</b> (marcadas con ►). Haz clic en una burbuja para abrir ese Pokémon. Para cerrarlas, presiona <b>Esc</b> o haz clic en cualquier otra parte del escenario.</p>
+  <div class="pair">
+    <figure>
+      <img src="img/06-shiny.png" alt="Charizard shiny">
+      <figcaption><b>Figura 6.</b> Charizard en su versión shiny.</figcaption>
+    </figure>
+    <figure>
+      <img src="img/07-burbujas-evolucion.png" alt="Burbujas de evolución">
+      <figcaption><b>Figura 7.</b> Burbujas con las evoluciones anteriores de Charizard.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="pestanas">
+  <h2><span class="num">6</span>Las pestañas de información</h2>
+  <p>Debajo del escenario hay cinco pestañas. La pestaña que elijas se mantiene al cambiar de Pokémon, y también al abrir una carta y regresar.</p>
+
+  <h3>6.1 Datos</h3>
+  <p>Es la pestaña predeterminada (figura 5). Muestra:</p>
+  <ul>
+    <li>La <b>descripción</b> del Pokémon, tomada de los juegos.</li>
+    <li>Su <b>ID</b>, <b>tipo</b>, <b>peso</b> (kg), <b>altura</b> (m) y <b>especie</b> (por ejemplo, «Pokémon Llama»).</li>
+    <li><b>Habilidades y efectos</b>: el nombre y la descripción de cada habilidad. La etiqueta <span class="ui">PRINCIPAL</span> o <span class="ui" style="color:var(--accent);border-color:var(--accent)">OCULTA</span> indica su tipo. Despliega <b>«Efecto en combate (inglés)»</b> para leer el efecto técnico, disponible solo en inglés.</li>
+  </ul>
+
+  <h3>6.2 Estadísticas</h3>
+  <div class="split">
+    <div>
+      <p>Muestra las seis estadísticas base del Pokémon con una barra proporcional: <b>PS</b>, <b>Ataque</b>, <b>Defensa</b>, <b>Ataque Esp.</b>, <b>Defensa Esp.</b> y <b>Velocidad</b>. Al final aparece la suma <b>Total</b>.</p>
+      <p>Te sirven para comparar Pokémon: por ejemplo, Charizard destaca en Ataque Especial (109) y Velocidad (100).</p>
+    </div>
+    <figure class="mid">
+      <img src="img/08-estadisticas.png" alt="Pestaña Estadísticas">
+      <figcaption><b>Figura 8.</b> Pestaña Estadísticas.</figcaption>
+    </figure>
+  </div>
+
+  <h3>6.3 Evolución</h3>
+  <div class="split">
+    <div>
+      <p>Presenta la <b>cadena evolutiva</b> completa, por etapas. Cada Pokémon lleva una etiqueta:</p>
+      <ul>
+        <li><span class="ui">ANTERIOR</span>: etapas previas al Pokémon actual.</li>
+        <li><span class="ui" style="background:var(--accent);color:#fff;border-color:var(--accent)">ACTUAL</span>: el Pokémon que estás viendo, resaltado en oscuro.</li>
+        <li><span class="ui">PRÓXIMA</span>: sus siguientes evoluciones.</li>
+      </ul>
+      <p>Las evoluciones de otras ramas (por ejemplo, las demás evoluciones de Eevee) aparecen atenuadas. Bajo cada nombre se indica la condición para evolucionar, como el nivel («Nv. 36»).</p>
+      <p>Haz clic en cualquier etapa para abrir ese Pokémon. Si no tiene evoluciones, se indica en la pestaña.</p>
+    </div>
+    <figure class="mid">
+      <img src="img/09-evolucion.png" alt="Pestaña Evolución">
+      <figcaption><b>Figura 9.</b> Cadena evolutiva de Charizard.</figcaption>
+    </figure>
+  </div>
+
+  <h3>6.4 Movimientos</h3>
+  <div class="split">
+    <div>
+      <ol>
+        <li>En <b>Juego</b>, elige la edición (por ejemplo, <i>Escarlata/Púrpura</i>). Se preselecciona el juego más reciente en el que aparece el Pokémon.</li>
+        <li>Elige el <b>método de aprendizaje</b>: <span class="ui">Por nivel</span>, <span class="ui">MT</span> (máquina técnica), <span class="ui">Huevo</span> o <span class="ui">Tutor</span>. El número indica cuántos movimientos hay en cada uno.</li>
+        <li>En cada movimiento ves su nivel (en «Por nivel»; «Evo.» significa que lo aprende al evolucionar), su clase (Físico, Especial o Estado), potencia, precisión, PP y tipo.</li>
+        <li>Haz clic en un movimiento para desplegar su descripción y sus detalles: prioridad, probabilidad de efecto y efecto técnico (en inglés).</li>
+      </ol>
+    </div>
+    <figure class="tall">
+      <img src="img/10-movimientos.png" alt="Pestaña Movimientos">
+      <figcaption><b>Figura 10.</b> Movimientos de Charizard en Escarlata/Púrpura, con uno desplegado.</figcaption>
+    </figure>
+  </div>
+
+  <h3>6.5 Cartas TCG</h3>
+  <p>Muestra las cartas del juego de cartas coleccionables de ese Pokémon. Se explica en detalle en el siguiente capítulo.</p>
+</section>
+
+<section id="cartas">
+  <h2><span class="num">7</span>Cartas TCG y precios</h2>
+  <div class="split">
+    <div>
+      <p>En la pestaña <b>Cartas TCG</b> verás las cartas del Pokémon, con el total encontrado a la derecha del título. Cada carta muestra:</p>
+      <ul>
+        <li>Su imagen, su nombre y su código (edición y número).</li>
+        <li><b>Mercado</b>: el precio de mercado actual.</li>
+        <li><b>Rango mín – máx</b>: los precios más bajo y más alto registrados.</li>
+        <li>El botón <span class="ui">＋ Agregar a…</span> para guardarla en un portafolio (capítulo 9).</li>
+      </ul>
+      <p>Se muestran 12 cartas a la vez; presiona <span class="ui">Ver más cartas ▼</span> para cargar más.</p>
+      <p>Algunas cartas, sobre todo las de promociones o ediciones especiales, pueden aparecer con <b>«Sin imagen»</b> o <b>«Sin precio»</b> cuando la fuente de datos no tiene esa información.</p>
+      <p>Si no hay cartas en español para un Pokémon, se muestran las ediciones en inglés y se indica con un aviso.</p>
+
+      <h3>¿De dónde salen los precios?</h3>
+      <ul>
+        <li>Se usa el precio de <b>TCGplayer</b> (mercado de Estados Unidos, en dólares) y, si no lo hay, el de <b>Cardmarket</b> (mercado europeo, en euros).</li>
+        <li>Los precios se convierten automáticamente a la moneda elegida en el encabezado, con los tipos de cambio del día.</li>
+        <li>Pasa el cursor sobre el precio para ver la fuente y la moneda original.</li>
+      </ul>
+      <div class="note">Los precios son de referencia y provienen de mercados de terceros; pueden variar respecto al precio real de compra o venta.</div>
+    </div>
+    <figure class="tall">
+      <img src="img/11-cartas.png" alt="Pestaña Cartas TCG">
+      <figcaption><b>Figura 11.</b> Cartas de Charizard con precios en MXN.</figcaption>
+    </figure>
+  </div>
+
+  <h3>Detalle de una carta</h3>
+  <p>Haz clic en una carta para abrir su ficha completa:</p>
+  <figure class="wide">
+    <img src="img/13-carta-detalle.png" alt="Detalle de una carta">
+    <figcaption><b>Figura 12.</b> Página de detalle de una carta.</figcaption>
+  </figure>
+  <ul>
+    <li><b>Carta TCG</b>: la imagen en alta resolución.</li>
+    <li><b>Ficha</b>: nombre, edición y número, botón para agregarla a un portafolio, y sus datos (categoría, rareza, PS, tipo, fase e ilustrador).</li>
+    <li><b>Precios</b>: todos los precios disponibles en TCGplayer (por variante: normal, holo, reverse holo…) y en Cardmarket (tendencia, promedio, mínimo, promedio de 30 días…). Cada precio aparece convertido a tu moneda y, debajo, en su moneda original. También se indica la fecha de actualización de los precios y del tipo de cambio.</li>
+  </ul>
+  <p>Presiona <span class="ui">◄ Volver</span> para regresar exactamente a donde estabas: el mismo Pokémon, en la pestaña Cartas TCG y con tus filtros.</p>
+</section>
+
+<section id="colecciones">
+  <h2><span class="num">8</span>Mis colecciones</h2>
+  <p>Las colecciones son listas de Pokémon que tú armas: tus favoritos, tu equipo, los que te faltan por atrapar, etc. Siempre existe la lista <b>Favoritos</b>, que no se puede eliminar.</p>
+
+  <h3>Guardar un Pokémon</h3>
+  <p>En el visor, junto al nombre del Pokémon, está el botón de guardar. Tiene dos partes:</p>
+  <ul>
+    <li><b>Parte principal</b> (<span class="ui">☆ Agregar a Favoritos</span>): guarda el Pokémon en la lista actual con un solo clic. El botón se vuelve amarillo y cambia a <span class="ui" style="background:#fde047">★ En Favoritos</span>. Si lo presionas de nuevo, el Pokémon se quita de esa lista.</li>
+    <li><b>Flecha</b> <span class="ui">▾</span>: abre un menú con todas tus listas. Marca o desmarca las casillas para guardar el Pokémon en varias listas a la vez. Al final del menú puedes escribir el nombre de una <b>lista nueva</b> y presionar <span class="ui">+ Crear</span>: se crea la lista y el Pokémon se guarda en ella.</li>
+  </ul>
+  <p>La etiqueta <span class="ui" style="background:var(--ink);color:#fff">ACTUAL</span> indica la lista que usará el botón principal: es la última en la que guardaste un Pokémon.</p>
+  <figure class="wide">
+    <img src="img/15-guardar-en-coleccion.png" alt="Menú para guardar en una colección">
+    <figcaption><b>Figura 13.</b> Menú para elegir la lista o crear una nueva.</figcaption>
+  </figure>
+
+  <h3>Administrar tus colecciones</h3>
+  <p>Presiona <span class="ui">★ COLECCIÓN</span> en el encabezado para ver todas tus listas:</p>
+  <figure class="wide">
+    <img src="img/16-colecciones.png" alt="Página Mi colección">
+    <figcaption><b>Figura 14.</b> Página «Mi colección» con dos listas.</figcaption>
+  </figure>
+  <ul>
+    <li><b>Crear una lista</b>: escribe el nombre en el campo superior y presiona <span class="ui">+ Crear lista</span>. Si ya existe una lista con ese nombre, se usa la existente.</li>
+    <li><b>Abrir un Pokémon</b>: haz clic en su tarjeta.</li>
+    <li><b>Quitar un Pokémon</b>: presiona la <span class="ui">✕</span> en la esquina de su tarjeta.</li>
+    <li><b>Eliminar una lista</b>: presiona <span class="ui">Eliminar lista</span> y confirma con <span class="ui">Sí, eliminar</span>. Esta acción no se puede deshacer.</li>
+  </ul>
+  <div class="tip">Si tienes la Pokédex abierta en varias pestañas del navegador, los cambios en tus colecciones se reflejan en todas.</div>
+</section>
+
+<section id="portafolios">
+  <h2><span class="num">9</span>Mis portafolios de cartas</h2>
+  <p>Los portafolios funcionan igual que las colecciones, pero guardan <b>cartas TCG</b> con su cantidad y calculan cuánto vale tu colección de cartas. Siempre existe el portafolio <b>Mi portafolio</b>, que no se puede eliminar.</p>
+
+  <h3>Agregar una carta</h3>
+  <p>Cada carta de la pestaña Cartas TCG, y la página de detalle de cada carta, tiene el botón <span class="ui">＋ Agregar a Mi portafolio</span>:</p>
+  <ul>
+    <li>La <b>parte principal</b> agrega la carta al portafolio actual. El botón cambia a <span class="ui" style="background:#fde047">✓ En Mi portafolio</span>; presiónalo de nuevo para quitarla.</li>
+    <li>La <b>flecha</b> <span class="ui">▾</span> abre el menú para elegir otros portafolios o crear uno nuevo.</li>
+  </ul>
+  <figure class="wide">
+    <img src="img/12-guardar-en-portafolio.png" alt="Menú para guardar una carta en un portafolio">
+    <figcaption><b>Figura 15.</b> Dos cartas agregadas a «Mi portafolio» y el menú de portafolios abierto.</figcaption>
+  </figure>
+
+  <h3>Consultar el valor de tus cartas</h3>
+  <p>Presiona <span class="ui">💼 PORTAFOLIO</span> en el encabezado:</p>
+  <figure class="wide">
+    <img src="img/14-portafolios.png" alt="Página Mis portafolios">
+    <figcaption><b>Figura 16.</b> Página «Mis portafolios» con su valor total.</figcaption>
+  </figure>
+  <ul>
+    <li><b>Valor total de mercado</b>: la suma de todos tus portafolios, con el rango mínimo y máximo, en la moneda elegida.</li>
+    <li>En cada portafolio, cada fila muestra la carta, su <b>precio</b> unitario, la <b>cantidad</b> y el <b>valor</b> (precio × cantidad). Al pie se muestran el <b>total del portafolio</b> y su rango.</li>
+    <li>Usa <span class="ui">−</span> y <span class="ui">+</span> para cambiar la cantidad de copias, de 1 a 999.</li>
+    <li>Presiona la <span class="ui">✕</span> para quitar una carta, o el nombre de la carta para abrir su detalle.</li>
+    <li>Para crear un portafolio, escribe su nombre y presiona <span class="ui">+ Crear</span>. Para eliminarlo, usa <span class="ui">Eliminar portafolio</span> y confirma.</li>
+  </ul>
+  <p>Las cartas sin precio no se suman al total, y se indica cuántas son. Si cambias la moneda en el encabezado, todos los valores se recalculan al momento.</p>
+</section>
+
+<section id="celular">
+  <h2><span class="num">10</span>Uso en el celular</h2>
+  <p>La Pokédex se adapta a pantallas pequeñas. En el celular el orden cambia: primero aparecen la <b>búsqueda directa</b> y el <b>índice</b>, y debajo el <b>visor</b>. Cuando eliges un Pokémon, la pantalla se desplaza sola hasta el visor.</p>
+  <p>Las pestañas del visor se acomodan en dos columnas, y en el encabezado los botones Colección y Portafolio muestran solo su icono y su contador.</p>
+  <div class="pair">
+    <figure class="mid">
+      <img src="img/17-celular-busqueda.png" alt="Pokédex en el celular: búsqueda">
+      <figcaption><b>Figura 17.</b> Pantalla inicial en el celular.</figcaption>
+    </figure>
+    <figure class="mid">
+      <img src="img/18-celular-visor.png" alt="Pokédex en el celular: visor">
+      <figcaption><b>Figura 18.</b> Visor después de elegir un Pokémon.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="faq">
+  <h2><span class="num">11</span>Preguntas frecuentes y solución de problemas</h2>
+  <table>
+    <tr><th style="width:38%">Situación</th><th>Qué hacer</th></tr>
+    <tr><td>Aparece «¡Pokémon no encontrado!».</td><td>Revisa el nombre (en inglés, como en el índice) o busca por número.</td></tr>
+    <tr><td>La búsqueda dice «SIN CONEXIÓN» o aparece «Error de lectura».</td><td>Revisa tu conexión a internet y recarga la página. Si persiste, el servicio de datos puede estar temporalmente fuera de línea; inténtalo más tarde.</td></tr>
+    <tr><td>No se escucha el grito, o el botón está deshabilitado.</td><td>Revisa el volumen. En Safari no se pueden reproducir: usa Chrome, Edge o Firefox. Si aparece «No se pudo reproducir», inténtalo de nuevo.</td></tr>
+    <tr><td>Una carta dice «Sin precio» o «Sin imagen».</td><td>La fuente de datos no tiene esa información para la carta. No es un error de la aplicación.</td></tr>
+    <tr><td>Los precios están en otra moneda o el punto de MONEDA es amarillo.</td><td>No se pudieron obtener los tipos de cambio; se muestran los precios originales (USD o EUR). Recarga la página más tarde.</td></tr>
+    <tr><td>Mis colecciones o portafolios desaparecieron.</td><td>Se guardan solo en el navegador donde los creaste. Verifica que uses el mismo navegador y equipo, y que no estés en una ventana privada. Si borraste los datos de navegación del sitio, no se pueden recuperar.</td></tr>
+    <tr><td>¿Puedo compartir lo que estoy viendo?</td><td>Sí. Copia la dirección del navegador: incluye el Pokémon, la pestaña abierta y los filtros del índice.</td></tr>
+    <tr><td>¿Necesito una cuenta?</td><td>No. La Pokédex no tiene registro ni inicio de sesión, y no envía tus colecciones a ningún servidor.</td></tr>
+  </table>
+
+  <h3>¿Dónde encuentro este manual?</h3>
+  <p>La primera vez que entras a la Pokédex aparece este aviso. <span class="ui">Ver ayuda</span> te lleva a la página de ayuda y la <span class="ui">✕</span> lo cierra para siempre.</p>
+  <figure>
+    <img src="img/19-bienvenida.png" alt="Aviso de bienvenida">
+    <figcaption><b>Figura 19.</b> Aviso de bienvenida para usuarios nuevos.</figcaption>
+  </figure>
+  <p>En cualquier momento puedes abrir la ayuda con el botón <span class="ui">? AYUDA</span> del encabezado. Ahí eliges cómo consultar el manual:</p>
+  <ul>
+    <li><b>Leer en línea</b>: se abre en una pestaña nueva y se adapta al celular. Desde la barra superior puedes volver a la Pokédex o descargar el PDF.</li>
+    <li><b>Descargar PDF</b>: para guardarlo, imprimirlo o leerlo sin conexión.</li>
+    <li><b>Ir directo a un tema</b>: abre el manual en línea justo en el capítulo que elijas.</li>
+  </ul>
+  <figure class="wide">
+    <img src="img/20-ayuda.png" alt="Página de ayuda">
+    <figcaption><b>Figura 20.</b> Página de ayuda.</figcaption>
+  </figure>
+
+  <h3>Créditos</h3>
+  <p>Datos de <b>PokéAPI</b>, <b>TCGdex</b> y <b>ExchangeRate-API</b>. Pokémon y sus marcas pertenecen a sus respectivos dueños. Esta aplicación es un proyecto independiente, sin afiliación con Nintendo, Game Freak ni The Pokémon Company.</p>
+</section>
+
+</main>
+</body>
+</html>

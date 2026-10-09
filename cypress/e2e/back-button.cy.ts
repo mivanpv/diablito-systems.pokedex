@@ -6,6 +6,7 @@ describe('Volver without in-app history', () => {
     ['a card page', '/#/carta/es/sv03.5-004', 'Charmander'],
     ['the collections page', '/#/colecciones', 'Mi colección'],
     ['the portfolios page', '/#/portafolios', 'Mis portafolios'],
+    ['the help page', '/#/ayuda', 'Leer en línea'],
   ].forEach(([page, path, content]) => {
     it(`goes to the Pokédex from ${page} opened directly`, () => {
       cy.visit(path);

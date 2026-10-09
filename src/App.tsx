@@ -5,6 +5,7 @@ import { CurrencyProvider } from './context/CurrencyContext';
 import { PortfoliosProvider } from './context/PortfoliosContext';
 import CollectionsPage from './pages/CollectionsPage';
 import DexPage from './pages/DexPage';
+import HelpPage from './pages/HelpPage';
 import NotFoundPage from './pages/NotFoundPage';
 import PortfoliosPage from './pages/PortfoliosPage';
 import TcgCardPage from './pages/TcgCardPage';
@@ -28,6 +29,7 @@ export default function App() {
                 <Route path="carta/:lang/:id" element={<TcgCardPage />} />
                 <Route path="colecciones" element={<CollectionsPage />} />
                 <Route path="portafolios" element={<PortfoliosPage />} />
+                <Route path="ayuda" element={<HelpPage />} />
                 <Route path="*" element={<NotFoundPage />} />
               </Route>
             </Routes>

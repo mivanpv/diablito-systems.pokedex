@@ -1,5 +1,6 @@
 import { Outlet } from 'react-router-dom';
 import Header from './Header';
+import WelcomeBanner from './WelcomeBanner';
 
 export default function Layout() {
   return (
@@ -7,6 +8,7 @@ export default function Layout() {
       <div className="dex-device mx-auto flex w-full max-w-7xl flex-1 flex-col overflow-hidden">
         <Header />
         <main className="flex-1 p-3 sm:p-5">
+          <WelcomeBanner />
           <Outlet />
         </main>
       </div>

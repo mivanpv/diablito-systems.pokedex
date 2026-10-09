@@ -46,6 +46,27 @@ function PortfolioLink() {
   );
 }
 
+function HelpLink() {
+  const isCurrent = useIsCurrent('/ayuda');
+  return (
+    <Link
+      to="/ayuda"
+      replace={isCurrent}
+      aria-current={isCurrent ? 'page' : undefined}
+      className="dex-btn gap-1.5 py-1"
+      aria-label="Ayuda y manual de usuario"
+    >
+      <span
+        aria-hidden="true"
+        className="flex h-4 w-4 items-center justify-center rounded-full border-2 border-dex-ink text-[10px] leading-none"
+      >
+        ?
+      </span>
+      <span className="hidden sm:inline">AYUDA</span>
+    </Link>
+  );
+}
+
 function Light({ className }: { className: string }) {
   return <span className={`h-3 w-3 rounded-full border-2 border-dex-ink ${className}`} />;
 }
@@ -76,6 +97,7 @@ export default function Header() {
         <CollectionLink />
         <PortfolioLink />
         <CurrencySelector />
+        <HelpLink />
       </div>
     </header>
   );

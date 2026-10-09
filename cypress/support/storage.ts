@@ -4,6 +4,7 @@
 export const COLLECTIONS_KEY = 'pokedex:collections';
 export const PORTFOLIOS_KEY = 'pokedex:portfolios';
 export const CURRENCY_KEY = 'pokedex:currency';
+export const WELCOME_KEY = 'pokedex:welcome-dismissed';
 
 /** Visits `path` with localStorage pre-filled. Strings are stored as-is; anything else as JSON. */
 export function visitWithStorage(path: string, entries: Record<string, unknown>) {
