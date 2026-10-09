@@ -1,0 +1,159 @@
+{
+  "voz": "es-MX-DaliaNeural",
+  "velocidad": "+0%",
+  "escenas": [
+    {
+      "id": "portada",
+      "tipo": "tarjeta",
+      "titulo": "POKÉDEX",
+      "subtitulo": "Manual de usuario en video",
+      "texto": "Bienvenido a la Pokédex. En este video verás cómo buscar Pokémon, consultar sus datos, revisar sus cartas con precios en tu moneda, y organizar tus colecciones y portafolios."
+    },
+    {
+      "id": "pantalla",
+      "capitulo": "3",
+      "titulo": "Conoce la pantalla",
+      "imagen": "01-inicio.png",
+      "texto": "La Pokédex es una aplicación web: no necesitas instalar nada ni crear una cuenta. Todo funciona en una sola pantalla. A la izquierda está el visor, donde aparece el Pokémon que elijas. A la derecha, la búsqueda directa y, debajo, el índice por tipo y letra."
+    },
+    {
+      "id": "encabezado",
+      "capitulo": "3",
+      "titulo": "El encabezado",
+      "imagen": "02-encabezado.png",
+      "puntos": ["★ Colección y 💼 Portafolio, con su contador", "? Ayuda abre este manual", "Moneda: MXN, USD, EUR y siete más"],
+      "texto": "En el encabezado tienes los accesos a tus colecciones y a tus portafolios, con un contador en rojo; el botón de ayuda; y el selector de moneda. Puedes ver los precios en pesos mexicanos, dólares, euros y otras siete monedas. Si el punto junto a la moneda está en verde, los tipos de cambio están al día."
+    },
+    {
+      "id": "busqueda-directa",
+      "capitulo": "4",
+      "titulo": "Búsqueda directa",
+      "imagen": "03-busqueda-directa.png",
+      "puntos": ["Nombre en inglés o número: pikachu, 25, #025", "Enter o BUSCAR", "⚄ Aleatorio: un Pokémon al azar"],
+      "texto": "Para ir directo a un Pokémon, escribe su nombre en inglés o su número, por ejemplo, pikachu o veinticinco, y presiona Enter. Mientras escribes, el navegador te sugiere nombres. Y si quieres una sorpresa, el botón Aleatorio abre un Pokémon al azar."
+    },
+    {
+      "id": "indice",
+      "capitulo": "4",
+      "titulo": "Índice por tipo y letra",
+      "imagen": "04-indice.png",
+      "puntos": ["Elige un tipo y una letra", "Haz clic en un Pokémon para abrirlo", "Los filtros quedan en el enlace"],
+      "texto": "Si no conoces el nombre, usa el índice. Elige un tipo, por ejemplo, Fuego, y la letra inicial. La lista muestra todos los Pokémon que cumplen los dos filtros. Los filtros se guardan en la dirección del navegador, así que puedes compartir el enlace y la otra persona verá lo mismo que tú."
+    },
+    {
+      "id": "visor",
+      "capitulo": "5",
+      "titulo": "El visor del Pokémon",
+      "imagen": "05-visor-datos.png",
+      "puntos": ["🔈 Grito actual y 8-bit", "◄ ► Pokémon anterior y siguiente", "Datos: descripción, peso, altura y habilidades"],
+      "texto": "Al elegir un Pokémon, el visor muestra su ficha: nombre, número, tipos e imagen. Con los botones de sonido escuchas su grito actual y el clásico de ocho bits. Con las flechas de abajo pasas al Pokémon anterior o al siguiente. La pestaña Datos incluye su descripción, peso, altura, especie y habilidades."
+    },
+    {
+      "id": "shiny",
+      "capitulo": "5",
+      "titulo": "Versión shiny",
+      "imagen": "06-shiny.png",
+      "texto": "El botón Shiny muestra al Pokémon con su coloración alternativa, y se mantiene activo mientras cambias de Pokémon."
+    },
+    {
+      "id": "burbujas",
+      "capitulo": "5",
+      "titulo": "Burbujas de evolución",
+      "imagen": "07-burbujas-evolucion.png",
+      "texto": "Haz clic en la imagen del Pokémon para ver burbujas con sus evoluciones: las anteriores a la izquierda y las siguientes a la derecha. Haz clic en una para abrirla, o presiona Escape para cerrarlas."
+    },
+    {
+      "id": "estadisticas",
+      "capitulo": "6",
+      "titulo": "Estadísticas",
+      "imagen": "08-estadisticas.png",
+      "recorte": { "y": 430, "alto": 408 },
+      "puntos": ["PS, Ataque, Defensa", "Ataque Esp., Defensa Esp., Velocidad", "Suma total"],
+      "texto": "En la pestaña Estadísticas ves las seis estadísticas base con barras proporcionales, y su total. Charizard, por ejemplo, destaca en Ataque Especial y en Velocidad."
+    },
+    {
+      "id": "evolucion",
+      "capitulo": "6",
+      "titulo": "Evolución",
+      "imagen": "09-evolucion.png",
+      "recorte": { "y": 430, "alto": 359 },
+      "puntos": ["ANTERIOR · ACTUAL · PRÓXIMA", "Condición para evolucionar", "Clic en una etapa para abrirla"],
+      "texto": "La pestaña Evolución presenta la cadena completa por etapas: la anterior, la actual y la próxima, con la condición para evolucionar, como el nivel treinta y seis. Haz clic en cualquier etapa para abrir ese Pokémon."
+    },
+    {
+      "id": "movimientos",
+      "capitulo": "6",
+      "titulo": "Movimientos",
+      "imagen": "10-movimientos.png",
+      "recorte": { "y": 430, "alto": 640 },
+      "puntos": ["Elige el juego", "Por nivel, MT, Huevo o Tutor", "Clic para ver la descripción"],
+      "texto": "En Movimientos eliges el juego y el método de aprendizaje: por nivel, máquina técnica, huevo o tutor. Cada movimiento muestra su clase, potencia, precisión y PP. Haz clic en uno para leer su descripción."
+    },
+    {
+      "id": "cartas",
+      "capitulo": "7",
+      "titulo": "Cartas TCG y precios",
+      "imagen": "11-cartas.png",
+      "recorte": { "y": 430, "alto": 720 },
+      "puntos": ["Precio de mercado y rango", "Convertido a tu moneda", "TCGplayer (USD) o Cardmarket (EUR)"],
+      "texto": "La pestaña Cartas TCG reúne las cartas del juego de cartas coleccionables de ese Pokémon. Cada una muestra su precio de mercado y su rango mínimo y máximo, convertidos a tu moneda. Los precios vienen de TCGplayer, en dólares, o de Cardmarket, en euros."
+    },
+    {
+      "id": "carta-detalle",
+      "capitulo": "7",
+      "titulo": "Detalle de una carta",
+      "imagen": "13-carta-detalle.png",
+      "recorte": { "y": 0, "alto": 860 },
+      "texto": "Haz clic en una carta para abrir su ficha: la imagen en alta resolución, su rareza, su ilustrador y todos sus precios por variante. El botón Volver te regresa justo a donde estabas."
+    },
+    {
+      "id": "guardar-coleccion",
+      "capitulo": "8",
+      "titulo": "Mis colecciones",
+      "imagen": "15-guardar-en-coleccion.png",
+      "texto": "Tus Pokémon favoritos se guardan en colecciones. El botón junto al nombre agrega el Pokémon a la lista actual con un solo clic. La flecha abre un menú para guardarlo en varias listas o crear una nueva."
+    },
+    {
+      "id": "colecciones",
+      "capitulo": "8",
+      "titulo": "Administrar tus colecciones",
+      "imagen": "16-colecciones.png",
+      "texto": "En Colección administras tus listas: crea nuevas, abre un Pokémon desde su tarjeta o quítalo con la equis. Tus colecciones se guardan solo en este navegador, sin cuentas ni servidores."
+    },
+    {
+      "id": "guardar-portafolio",
+      "capitulo": "9",
+      "titulo": "Mis portafolios de cartas",
+      "imagen": "12-guardar-en-portafolio.png",
+      "texto": "Las cartas se guardan en portafolios. El botón Agregar, en cada carta, la guarda en el portafolio actual, y la flecha te deja elegir otro o crear uno nuevo."
+    },
+    {
+      "id": "portafolios",
+      "capitulo": "9",
+      "titulo": "El valor de tus cartas",
+      "imagen": "14-portafolios.png",
+      "texto": "En Portafolio ves el valor total de tus cartas en la moneda elegida, con su rango mínimo y máximo. Ajusta la cantidad de copias con los botones de más y menos. El total se recalcula al momento, incluso si cambias de moneda."
+    },
+    {
+      "id": "celular",
+      "capitulo": "10",
+      "titulo": "Uso en el celular",
+      "imagen": ["17-celular-busqueda.png", "18-celular-visor.png"],
+      "texto": "En el celular, la Pokédex se adapta a la pantalla: primero aparecen las búsquedas y, al elegir un Pokémon, la pantalla baja sola hasta el visor."
+    },
+    {
+      "id": "ayuda",
+      "capitulo": "11",
+      "titulo": "¿Dónde encuentro el manual?",
+      "imagen": "20-ayuda.png",
+      "texto": "¿Necesitas más detalles? El botón Ayuda del encabezado abre el manual completo para leerlo en línea o descargarlo en PDF, y te lleva directo al tema que elijas."
+    },
+    {
+      "id": "cierre",
+      "tipo": "tarjeta",
+      "titulo": "¡A explorar!",
+      "subtitulo": "mivanpv.github.io/diablito-systems.pokedex",
+      "texto": "Eso es todo. Gracias por ver este video, y ahora sí: ¡a explorar la Pokédex!"
+    }
+  ]
+}

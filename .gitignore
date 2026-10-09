@@ -24,3 +24,6 @@ yarn-error.log*
 /cypress/screenshots
 /cypress/videos
 /cypress/downloads
+
+# user-manual video (npm run manual:video)
+/manual-video
